@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sinau Seni Budaya - Kelas VII</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        h1, h2, h3, h4, h5, h6 { 
+            font-family: 'Playfair Display', serif; 
+        }
+        .interactive-step:not(:first-child) { display: none; }
+        .prose h2 { margin-bottom: 0.5em; }
+        .prose h3 { margin-bottom: 0.5em; }
+        .gradient-text {
+            background: linear-gradient(90deg, #14b8a6, #0891b2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .dark .gradient-text {
+            background: linear-gradient(90deg, #2dd4bf, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .nav-link-desktop {
+            position: relative;
+            transition: color 0.3s;
+        }
+        .nav-link-desktop::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #14b8a6;
+            transition: width 0.3s;
+        }
+        .nav-link-desktop:hover::after, .nav-link-desktop.active::after {
+            width: 100%;
+        }
+        .quiz-option {
+             transition: all 0.2s ease-in-out;
+        }
+        .quiz-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .dark .quiz-option:hover {
+             box-shadow: 0 4px 15px rgba(255,255,255,0.05);
+        }
+        .quiz-option.correct {
+            background-color: #f0fdfa; /* teal-50 */
+            border-color: #14b8a6; /* teal-500 */
+        }
+        .dark .quiz-option.correct {
+            background-color: #115e59; /* teal-900 */
+            border-color: #2dd4bf; /* teal-400 */
+        }
+        .quiz-option.incorrect {
+            background-color: #fff1f2; /* rose-50 */
+            border-color: #f43f5e; /* rose-500 */
+        }
+        .dark .quiz-option.incorrect {
+            background-color: #881337; /* rose-900 */
+            border-color: #fb7185; /* rose-400 */
+        }
+        
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+
+    <!-- Header dan Navigasi -->
+    <header class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-sm sticky top-0 z-50 transition-colors duration-300">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center">
+                    <a href="#" class="text-3xl font-extrabold gradient-text">SinauSeni</a>
+                </div>
+                <div class="hidden lg:block">
+                    <nav class="ml-10 flex items-center space-x-6" id="desktop-nav">
+                        <!-- Menu Navigasi akan di-generate oleh JS -->
+                    </nav>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="relative hidden sm:block">
+                         <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" id="search-input" placeholder="Cari materi..." class="bg-gray-100 dark:bg-gray-700 rounded-full pl-9 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 w-32 md:w-56 transition-all">
+                        <div id="search-results" class="absolute mt-2 w-72 bg-white dark:bg-gray-700 rounded-md shadow-lg hidden"></div>
+                    </div>
+                    <button id="theme-toggle" class="w-10 h-10 flex items-center justify-center rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none transition-all">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <div class="lg:hidden">
+                        <button id="mobile-menu-button" class="w-10 h-10 flex items-center justify-center rounded-md text-gray-500 dark:text-gray-400">
+                            <i class="fas fa-bars text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Menu Mobile -->
+        <div class="lg:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3" id="mobile-nav">
+                <!-- Menu Mobile akan di-generate oleh JS -->
+            </div>
+        </div>
+    </header>
+
+    <!-- Konten Utama -->
+    <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <div id="main-content" class="bg-white dark:bg-gray-800 p-6 sm:p-10 rounded-2xl shadow-lg transition-colors duration-300">
+            <!-- Konten materi akan dimuat di sini -->
+        </div>
+    </main>
+    
+    <!-- Modal Kuis -->
+    <div id="quiz-modal" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col transform transition-all duration-300 scale-95 opacity-0">
+            <div class="p-5 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                <h3 id="quiz-title" class="text-2xl font-bold">Kuis Interaktif</h3>
+                <button id="close-quiz-modal" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-3xl">&times;</button>
+            </div>
+            <div id="quiz-content" class="p-6 overflow-y-auto">
+                <!-- Konten kuis akan di-generate oleh JS -->
+            </div>
+            <div class="p-5 border-t border-gray-200 dark:border-gray-700 flex justify-end">
+                <button id="submit-quiz-btn" class="bg-teal-600 text-white px-8 py-3 rounded-lg hover:bg-teal-700 transition-all transform hover:scale-105 shadow-md">Kumpulkan Jawaban</button>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="text-center py-8 text-sm text-gray-500 dark:text-gray-400">
+        <p>Dibuat dengan ❤️ untuk pembelajaran Seni Budaya Kelas VII.</p>
+        <p>&copy; 2024 SinauSeni. Hak Cipta Dilindungi.</p>
+    </footer>
+
+    <script>
+        // === DATABASE MATERI & KUIS LENGKAP ===
+        const contentData = {
+            'home': {
+                title: 'Selamat Datang di Sinau Seni!',
+                content: `
+                    <div class="text-center">
+                        <h1 class="text-4xl md:text-6xl font-bold mb-4 gradient-text">Belajar Seni Budaya Jadi Seru!</h1>
+                        <p class="text-lg mb-8 max-w-3xl mx-auto text-gray-600 dark:text-gray-300">Hai! Selamat datang di portal pembelajaran interaktif Seni Budaya Kelas VII. Di sini, kita akan menjelajahi dunia seni yang penuh warna dengan cara yang asyik dan mudah dipahami. Siap berpetualang?</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-left mt-12">
+                            <a href="#" data-id="seni-rupa" class="group block bg-gradient-to-br from-rose-50 to-rose-100 dark:from-rose-900/50 dark:to-rose-800/50 p-6 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                                <i class="fas fa-palette text-4xl text-rose-500 mb-4"></i>
+                                <h3 class="font-bold text-2xl mb-2 text-rose-800 dark:text-rose-200">Seni Rupa</h3>
+                                <p class="text-gray-600 dark:text-gray-400">Belajar menggambar, menerapkan ragam hias pada tekstil dan kayu.</p>
+                            </a>
+                            <a href="#" data-id="seni-musik" class="group block bg-gradient-to-br from-sky-50 to-sky-100 dark:from-sky-900/50 dark:to-sky-800/50 p-6 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                                <i class="fas fa-music text-4xl text-sky-500 mb-4"></i>
+                                <h3 class="font-bold text-2xl mb-2 text-sky-800 dark:text-sky-200">Seni Musik</h3>
+                                <p class="text-gray-600 dark:text-gray-400">Dari bernyanyi unisono, vokal grup, hingga main alat musik campuran.</p>
+                            </a>
+                            <a href="#" data-id="seni-tari" class="group block bg-gradient-to-br from-amber-50 to-amber-100 dark:from-amber-900/50 dark:to-amber-800/50 p-6 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                                <i class="fas fa-person-walking-luggage text-4xl text-amber-500 mb-4"></i>
+                                <h3 class="font-bold text-2xl mb-2 text-amber-800 dark:text-amber-200">Seni Tari</h3>
+                                <p class="text-gray-600 dark:text-gray-400">Mengolah ruang, waktu, tenaga, level, dan pola lantai dalam tarian.</p>
+                            </a>
+                            <a href="#" data-id="seni-teater" class="group block bg-gradient-to-br from-violet-50 to-violet-100 dark:from-violet-900/50 dark:to-violet-800/50 p-6 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                                <i class="fas fa-masks-theater text-4xl text-violet-500 mb-4"></i>
+                                <h3 class="font-bold text-2xl mb-2 text-violet-800 dark:text-violet-200">Seni Teater</h3>
+                                <p class="text-gray-600 dark:text-gray-400">Dasar akting, menulis naskah, merancang, dan mementaskan fragmen.</p>
+                            </a>
+                        </div>
+                    </div>
+                `
+            },
+            'seni-rupa': {
+                title: 'Seni Rupa',
+                content: `<div class="text-center"><h1 class="text-4xl md:text-5xl font-bold mb-4 text-rose-500">Seni Rupa</h1><p class="text-lg">Pilih bab yang ingin kamu pelajari di bawah atau dari menu navigasi.</p></div>`
+            },
+            'seni-musik': {
+                title: 'Seni Musik',
+                content: `<div class="text-center"><h1 class="text-4xl md:text-5xl font-bold mb-4 text-sky-500">Seni Musik</h1><p class="text-lg">Pilih bab yang ingin kamu pelajari di bawah atau dari menu navigasi.</p></div>`
+            },
+            'seni-tari': {
+                title: 'Seni Tari',
+                content: `<div class="text-center"><h1 class="text-4xl md:text-5xl font-bold mb-4 text-amber-500">Seni Tari</h1><p class="text-lg">Pilih bab yang ingin kamu pelajari di bawah atau dari menu navigasi.</p></div>`
+            },
+            'seni-teater': {
+                title: 'Seni Teater',
+                content: `<div class="text-center"><h1 class="text-4xl md:text-5xl font-bold mb-4 text-violet-500">Seni Teater</h1><p class="text-lg">Pilih bab yang ingin kamu pelajari di bawah atau dari menu navigasi.</p></div>`
+            },
+            // --- SENI RUPA ---
+            'seni-rupa-1': {
+                title: 'Bab 1: Menggambar Flora, Fauna, dan Alam Benda',
+                category: 'Seni Rupa',
+                content: `
+                    <article class="prose lg:prose-xl dark:prose-invert max-w-none">
+                        <h2>Bab 1: Menggambar Flora, Fauna, dan Alam Benda</h2>
+                        <h3>Pengantar: Yuk, Menggambar!</h3>
+                        <p>Gambar itu bahasa universal! Sebelum ada tulisan, manusia pakai gambar buat komunikasi. Menggambar itu cara kita mengekspresikan ide dan perasaan. Di bab ini, kita bakal belajar cara gambar flora (tumbuhan), fauna (hewan), dan alam benda (barang-barang di sekitar kita).</p>
+                        <h3>1. Objek & Komposisi</h3>
+                        <p>Inspirasi gambar ada di mana-mana! Kita bisa gambar <strong>Flora</strong> (bunga, daun), <strong>Fauna</strong> (kucing, burung), dan <strong>Alam Benda</strong> (gelas, sepatu). Biar gambarmu keren, atur <strong>komposisinya</strong>. Ada dua jenis utama: <strong>Simetris</strong> (kanan-kiri seimbang kayak cermin) dan <strong>Asimetris</strong> (kanan-kiri beda tapi tetap seimbang).</p>
+                        <h3>2. Teknik & Alat</h3>
+                        <p>Teknik dasarnya: buat sketsa dulu, tentukan gelap terang, baru beri warna. Alat yang bisa dipakai: <strong>Pensil</strong> (kode 'H' buat tipis, 'B' buat tebal), <strong>Pensil Warna</strong>, dan <strong>Krayon</strong>.</p>
+                        <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg my-6">
+                            <h4 class="mt-0 text-center">Interaktif: Langkah Menggambar Bunga</h4>
+                            <div id="interactive-steps-1" class="relative">
+                                <div class="interactive-step"><p><strong>1. Pola Dasar:</strong> Buat pola lingkaran untuk panduan bunga.</p><img src="https://i.imgur.com/uGg0p8a.png" alt="Pola Dasar Bunga" class="rounded-lg mx-auto max-h-48"></div>
+                                <div class="interactive-step"><p><strong>2. Gambar Kelopak:</strong> Ikuti bentuk asli kelopak bunga satu per satu.</p><img src="https://i.imgur.com/7d7d8aQ.png" alt="Menggambar Kelopak" class="rounded-lg mx-auto max-h-48"></div>
+                                <div class="interactive-step"><p><strong>3. Warnai:</strong> Beri warna cerah agar gambar lebih hidup!</p><img src="https://i.imgur.com/V9c3kLq.png" alt="Mewarnai Bunga" class="rounded-lg mx-auto max-h-48"></div>
+                            </div>
+                            <div class="flex justify-center mt-4 space-x-4"><button onclick="changeStep('interactive-steps-1', -1)" class="bg-teal-500 text-white px-4 py-2 rounded-lg">‹</button><button onclick="changeStep('interactive-steps-1', 1)" class="bg-teal-500 text-white px-4 py-2 rounded-lg">›</button></div>
+                        </div>
+                        <h3>Rangkuman</h3>
+                        <p>Menggambar adalah dasar seni rupa. Objeknya bisa flora, fauna, atau alam benda. Perhatikan komposisi dan teknik yang benar. Yang paling penting, jangan takut mencoba dan terus berlatih!</p>
+                    </article>
+                    <button onclick="showQuiz('seni-rupa-1')" class="mt-8 bg-rose-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-rose-600 w-full transition-all transform hover:scale-105">Mulai Kuis Bab 1</button>
+                `,
+                quiz: [
+                    { type: 'mc', question: 'Aktivitas mental dan fisik yang dituangkan dalam bentuk goresan tangan disebut...', options: ['Mewarnai', 'Menggambar', 'Menulis', 'Memahat'], answer: 'Menggambar', explanation: 'Menggambar adalah proses menuangkan gagasan dan perasaan melalui goresan tangan.' },
+                    { type: 'mc', question: 'Komposisi yang menunjukkan objek di bagian kanan dan kiri sama atau mirip disebut...', options: ['Asimetris', 'Sentral', 'Simetris', 'Diagonal'], answer: 'Simetris', explanation: 'Komposisi simetris menciptakan keseimbangan formal di mana kedua sisi gambar identik atau sangat mirip.' },
+                    { type: 'mc', question: 'Pensil dengan tanda "B" memiliki sifat...', options: ['Keras dan tipis', 'Lunak dan pekat', 'Lunak dan tipis', 'Keras dan pekat'], answer: 'Lunak dan pekat', explanation: 'Pensil "B" (Bold) bersifat lunak, menghasilkan goresan yang lebih tebal dan pekat.' },
+                    { type: 'essay', question: 'Sebutkan 3 objek yang bisa digambar dari alam sekitar!', answer: 'Flora (tumbuhan), fauna (hewan), dan alam benda.', explanation: 'Objek menggambar ada di mana-mana, contohnya flora, fauna, dan alam benda.' }
+                ]
+            },
+            'seni-rupa-2': {
+                title: 'Bab 2: Menggambar Ragam Hias',
+                category: 'Seni Rupa',
+                content: `
+                    <article class="prose lg:prose-xl dark:prose-invert max-w-none">
+                        <h2>Bab 2: Menggambar Ragam Hias</h2>
+                        <h3>Pengantar: Apa Itu Ragam Hias?</h3>
+                        <p>Pernah lihat ukiran di kursi atau corak di kain batik? Nah, itu namanya ragam hias atau ornamen. Ragam hias itu bentuk karya seni rupa yang dibuat untuk memperindah suatu benda. Di Indonesia, ragam hiasnya kaya banget!</p>
+                        <h3>1. Motif Ragam Hias</h3>
+                        <p>Motifnya ada 4 jenis utama:</p>
+                        <ul>
+                            <li><strong>Flora (Tumbuhan):</strong> Motif daun, bunga, atau sulur-suluran.</li>
+                            <li><strong>Fauna (Hewan):</strong> Motif burung, naga, atau ikan. Bentuknya sering digayakan (distilasi).</li>
+                            <li><strong>Geometris:</strong> Motif dari bentuk geometris seperti segitiga, segiempat, lingkaran.</li>
+                            <li><strong>Figuratif (Manusia):</strong> Motif berbentuk manusia yang digayakan.</li>
+                        </ul>
+                        <h3>2. Pola & Teknik</h3>
+                        <p>Pola adalah susunan motif yang diulang-ulang. Menggambarnya gampang: perhatikan pola, siapkan alat, buat sketsa, lalu warnai. Setiap daerah punya ciri khas ragam hiasnya sendiri, lho. Keren, ya!</p>
+                    </article>
+                    <button onclick="showQuiz('seni-rupa-2')" class="mt-8 bg-rose-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-rose-600 w-full transition-all transform hover:scale-105">Mulai Kuis Bab 2</button>
+                `,
+                quiz: [
+                    { type: 'mc', question: 'Ragam hias yang inspirasinya dari bentuk tumbuhan disebut...', options: ['Fauna', 'Flora', 'Geometris', 'Figuratif'], answer: 'Flora', explanation: 'Ragam hias Flora (vegetal) mengambil inspirasi dari bentuk-bentuk tumbuhan.' },
+                    { type: 'mc', question: 'Proses menggayakan bentuk asli objek menjadi lebih indah tanpa meninggalkan identitas aslinya disebut...', options: ['Deformasi', 'Stilasi', 'Transformasi', 'Duplikasi'], answer: 'Stilasi', explanation: 'Stilasi adalah penggayaan bentuk yang sering digunakan dalam ragam hias.'},
+                    { type: 'essay', question: 'Sebutkan 2 jenis pola ragam hias!', answer: 'Pola beraturan dan tidak beraturan', explanation: 'Pola ragam hias dapat disusun secara beraturan (terukur dan seimbang) atau tidak beraturan namun tetap indah.' }
+                ]
+            },
+            'seni-rupa-9': {
+                title: 'Bab 9: Ragam Hias pada Bahan Tekstil',
+                category: 'Seni Rupa',
+                content: `
+                    <article class="prose lg:prose-xl dark:prose-invert max-w-none">
+                        <h2>Bab 9: Menerapkan Ragam Hias pada Bahan Tekstil</h2>
+                        <h3>Pengantar: Bikin Kain Jadi Keren!</h3>
+                        <p>Ragam hias gak cuma di kertas, tapi juga bisa di bahan tekstil seperti kain atau kaos. Caranya macem-macem, ada membatik, menenun, menyulam, membordir, dan melukis.</p>
+                        <h3>1. Jenis Bahan Tekstil</h3>
+                        <p>Beda bahan, beda sifatnya. Contohnya:</p>
+                        <ul>
+                            <li><strong>Katun:</strong> Menyerap air, gampang kusut, tapi adem.</li>
+                            <li><strong>Wol:</strong> Lentur, tahan panas, tidak mudah kusut.</li>
+                            <li><strong>Sutera:</strong> Lembut, licin, berkilap, dan sejuk.</li>
+                            <li><strong>Polyester/Nilon:</strong> Tidak tahan panas, tidak mudah kusut, cepat kering.</li>
+                        </ul>
+                        <h3>2. Pewarna Tekstil</h3>
+                        <p>Ada dua jenis pewarna: <strong>alami</strong> (dari daun, akar, kulit kayu) yang warnanya soft tapi gampang luntur, dan <strong>buatan/sintetis</strong> (dari bahan kimia) yang warnanya awet dan tahan sinar matahari.</p>
+                        <h3>Teknik Menggambar di Kaos</h3>
+                        <p>Salah satu cara asyik adalah menggambar di kaos. Caranya: siapkan desain, alasi bagian dalam kaos dengan karton, gambar sketsa di kaos, lalu warnai pakai cat tekstil dan keringkan. Jadi deh kaos dengan desainmu sendiri!</p>
+                    </article>
+                    <button onclick="showQuiz('seni-rupa-9')" class="mt-8 bg-rose-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-rose-600 w-full transition-all transform hover:scale-105">Mulai Kuis Bab 9</button>
+                `,
+                quiz: [
+                    { type: 'mc', question: 'Berikut ini yang BUKAN teknik menerapkan ragam hias pada tekstil adalah...', options: ['Membatik', 'Menyulam', 'Mengukir', 'Menenun'], answer: 'Mengukir', explanation: 'Mengukir adalah teknik yang digunakan untuk bahan keras seperti kayu atau batu, bukan untuk bahan tekstil.' },
+                    { type: 'mc', question: 'Bahan tekstil yang punya sifat lembut, licin, dan berkilap adalah...', options: ['Katun', 'Wol', 'Sutera', 'Polyester'], answer: 'Sutera', explanation: 'Sutera terkenal dengan kelembutannya, kilauannya, dan rasanya yang sejuk saat dipakai.' },
+                    { type: 'essay', question: 'Apa fungsi memberi alas karton di dalam kaos saat melukis?', answer: 'Agar cat tidak tembus ke belakang.', explanation: 'Alas seperti karton berfungsi sebagai penghalang agar cat tidak merembes dan mengotori bagian belakang kaos.' }
+                ]
+            },
+            'seni-rupa-10': {
+                title: 'Bab 10: Ragam Hias pada Bahan Kayu',
+                category: 'Seni Rupa',
+                content: `
+                    <article class="prose lg:prose-xl dark:prose-invert max-w-none">
+                        <h2>Bab 10: Menerapkan Ragam Hias pada Bahan Kayu</h2>
+                        <h3>Pengantar: Seni di Atas Kayu</h3>
+                        <p>Selain di tekstil, ragam hias juga sering kita lihat di perabotan kayu, seperti kursi, lemari, pintu, atau bahkan topeng dan tameng. Penerapannya bisa dengan dua cara utama: mengukir dan melukis.</p>
+                        <h3>1. Teknik Mengukir</h3>
+                        <p>Mengukir adalah membentuk tonjolan dan cekungan pada permukaan kayu. Alat utamanya adalah <strong>pahat</strong> dan <strong>pemukul</strong>. Ada beberapa jenis pahat dengan fungsi berbeda:</p>
+                        <ul>
+                            <li><strong>Pahat Kuku (Penguku):</strong> Untuk bagian lengkung, melingkar, cembung, dan cekung.</li>
+                            <li><strong>Pahat Lurus (Penyilat):</strong> Untuk bagian yang lurus dan rata.</li>
+                            <li><strong>Pahat Lengkung (Kol):</strong> Untuk bagian cekung yang dalam.</li>
+                            <li><strong>Pahat Miring (Pengot):</strong> Untuk membersihkan sudut-sudut kecil.</li>
+                        </ul>
+                        <h3>2. Teknik Melukis</h3>
+                        <p>Ini seperti melukis biasa, tapi medianya kayu. Langkah-langkahnya: siapkan alat (cat akrilik/tembok, kuas), siapkan kayu, buat rancangan, pindahkan gambar ke kayu, warnai, lalu lapisi dengan vernis agar awet dan mengkilap.</p>
+                        <h3>Makna Ragam Hias Kayu</h3>
+                        <p>Di banyak daerah, ragam hias pada kayu punya nilai simbolis, lho. Terkadang berhubungan dengan kepercayaan atau status sosial. Setiap daerah di Indonesia, dari Jawa, Kalimantan, Bali, hingga Papua, punya ragam hias kayu yang khas.</p>
+                    </article>
+                    <button onclick="showQuiz('seni-rupa-10')" class="mt-8 bg-rose-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-rose-600 w-full transition-all transform hover:scale-105">Mulai Kuis Bab 10</button>
+                `,
+                quiz: [
+                    { type: 'mc', question: 'Alat utama yang digunakan untuk mengukir kayu adalah...', options: ['Kuas dan Palet', 'Pensil dan Kertas', 'Pahat dan Pemukul', 'Jarum dan Benang'], answer: 'Pahat dan Pemukul', explanation: 'Mengukir kayu membutuhkan pahat untuk membentuk ukiran dan pemukul (palu kayu) untuk memberikan tekanan pada pahat.' },
+                    { type: 'mc', question: 'Pahat yang berfungsi untuk mengerjakan bagian yang lengkung dan melingkar disebut...', options: ['Pahat Lurus', 'Pahat Kuku', 'Pahat Miring', 'Pahat Kol'], answer: 'Pahat Kuku', explanation: 'Bentuknya yang seperti kuku manusia membuat pahat ini ideal untuk membuat bentuk-bentuk lengkungan.' },
+                    { type: 'essay', question: 'Apa fungsi lapisan vernis pada akhir proses melukis di kayu?', answer: 'Melindungi cat dan membuat lebih awet/mengkilap.', explanation: 'Vernis atau cat transparan berfungsi sebagai lapisan pelindung (coating) agar cat tidak mudah rusak dan memberikan hasil akhir yang lebih indah (mengkilap atau doff).' }
+                ]
+            },
+
+            // --- SENI MUSIK ---
+            'seni-musik-3': {
+                title: 'Bab 3: Menyanyi dengan Satu Suara (Unisono)',
+                category: 'Seni Musik',
+                content: `
+                    <article class="prose lg:prose-xl dark:prose-invert max-w-none">
+                        <h2>Bab 3: Menyanyi dengan Satu Suara (Unisono)</h2>
+                        <h3>Pengantar: Nyanyi Bareng, Satu Suara!</h3>
+                        <p>Kalau kamu dan teman-temanmu nyanyi bareng dengan melodi yang sama persis, itu namanya bernyanyi secara <strong>unisono</strong>. Unisono artinya satu suara. Walaupun banyak orang yang nyanyi, melodinya cuma satu. Kuncinya adalah kekompakan!</p>
+                        <h3>1. Teknik Vokal Itu Penting!</h3>
+                        <p>Biar nyanyinya bagus, kuasai teknik ini:</p>
+                        <ul>
+                            <li><strong>Artikulasi:</strong> Pengucapan kata harus jelas.</li>
+                            <li><strong>Phrasering:</strong> Aturan pemenggalan kalimat lagu, biar gak ngos-ngosan di tengah jalan.</li>
+                            <li><strong>Intonasi:</strong> Ketepatan menyanyikan nada. Jangan sampai fals!</li>
+                        </ul>
+                        <h3>2. Teknik Pernapasan: Kunci Suara Stabil</h3>
+                        <p>Napas adalah "bahan bakar" suara. Yang paling bagus buat nyanyi adalah <strong>pernapasan diafragma</strong>. Diafragma itu otot di antara rongga dada dan perut. Pernapasan ini bikin napas panjang dan suara stabil.</p>
+                    </article>
+                    <button onclick="showQuiz('seni-musik-3')" class="mt-8 bg-sky-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-sky-600 w-full transition-all transform hover:scale-105">Mulai Kuis Bab 3</button>
+                `,
+                quiz: [
+                    { type: 'mc', question: 'Bernyanyi secara berkelompok dengan satu jenis suara disebut...', options: ['Paduan Suara', 'Vokal Grup', 'Unisono', 'Akapela'], answer: 'Unisono', explanation: 'Unisono berarti "satu suara", yaitu ketika sekelompok orang menyanyikan melodi yang sama.' },
+                    { type: 'mc', question: 'Teknik pernapasan yang paling baik digunakan untuk bernyanyi adalah...', options: ['Dada', 'Perut', 'Bahu', 'Diafragma'], answer: 'Diafragma', explanation: 'Pernapasan diafragma memungkinkan kontrol napas yang optimal.' },
+                    { type: 'essay', question: 'Apa yang dimaksud dengan Intonasi?', answer: 'Tinggi rendahnya nada yang harus dijangkau dengan tepat.', explanation: 'Intonasi adalah ketepatan nada (pitch). Jika intonasi tidak tepat, suara akan terdengar fals.' }
+                ]
+            },
+            'seni-musik-4': {
+                title: 'Bab 4: Memainkan Alat Musik Sederhana',
+                category: 'Seni Musik',
+                content: `
+                    <article class="prose lg:prose-xl dark:prose-invert max-w-none">
+                        <h2>Bab 4: Memainkan Alat Musik Sederhana</h2>
+                        <h3>Pengantar: Asyiknya Main Musik Bareng!</h3>
+                        <p>Main musik bareng-bareng secara sederhana disebut <strong>musik ansambel</strong>. Berdasarkan fungsinya, alat musik dibagi jadi tiga kelompok.</p>
+                        <h3>1. Kelompok Alat Musik</h3>
+                        <ul>
+                            <li><strong>Ritmis:</strong> Tugasnya memberi irama atau ketukan. Contoh: triangle, gendang, rebana, drum.</li>
+                            <li><strong>Melodis:</strong> Tugasnya memainkan melodi lagu. Alat musik ini punya nada. Contoh: rekorder, pianika, suling, biola.</li>
+                            <li><strong>Harmonis:</strong> Tugasnya sebagai pengiring dan bisa memainkan beberapa nada sekaligus (akor). Contoh: gitar, piano, keyboard.</li>
+                        </ul>
+                        <h3>2. Teknik Memainkan Alat Musik</h3>
+                        <p>Setiap alat musik punya cara main yang beda. Ada yang <strong>dipukul</strong> (gendang, kolintang), <strong>ditiup</strong> (suling, rekorder), <strong>dipetik</strong> (gitar, sasando), <strong>digoyangkan</strong> (angklung), atau <strong>ditekan</strong> (piano). Mempelajari teknik yang benar itu penting biar suara yang dihasilkan bagus.</p>
+                    </article>
+                    <button onclick="showQuiz('seni-musik-4')" class="mt-8 bg-sky-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-sky-600 w-full transition-all transform hover:scale-105">Mulai Kuis Bab 4</button>
+                `,
+                quiz: [
+                    { type: 'mc', question: 'Alat musik yang berfungsi untuk memberikan irama disebut alat musik...', options: ['Melodis', 'Harmonis', 'Ritmis', 'Aerofon'], answer: 'Ritmis', explanation: 'Alat musik ritmis bertanggung jawab menjaga tempo dan memberikan pola irama dalam sebuah sajian musik.' },
+                    { type: 'mc', question: 'Gitar dan piano termasuk dalam kelompok alat musik...', options: ['Melodis', 'Harmonis', 'Ritmis', 'Idiophone'], answer: 'Harmonis', explanation: 'Alat musik harmonis dapat memainkan beberapa nada secara bersamaan untuk menciptakan harmoni atau akor.' },
+                    { type: 'essay', question: 'Sebutkan satu contoh alat musik melodis dan cara memainkannya!', answer: 'Rekorder (ditiup) atau suling (ditiup).', explanation: 'Contoh alat musik melodis adalah rekorder, suling, atau pianika, yang semuanya dimainkan dengan cara ditiup untuk menghasilkan melodi.' }
+                ]
+            },
+            'seni-musik-11': {
+                title: 'Bab 11: Menyanyi dengan Lebih Satu Suara',
+                category: 'Seni Musik',
+                content: `
+                    <article class="prose lg:prose-xl dark:prose-invert max-w-none">
+                        <h2>Bab 11: Menyanyi dengan Lebih Satu Suara</h2>
+                        <h3>Pengantar: Dari Unisono ke Vokal Grup</h3>
+                        <p>Kalau unisono itu satu suara, sekarang kita naik level! Menyanyi dengan lebih dari satu suara artinya ada pembagian suara, misalnya suara 1 (tinggi/sopran), suara 2 (sedang/alto), dan kadang ada suara 3 (rendah/tenor/bass). Ini bikin lagu jadi lebih kaya dan harmonis.</p>
+                        <h3>1. Lagu Kanon</h3>
+                        <p>Ini cara paling simpel buat nyanyi banyak suara. Lagu kanon itu lagu yang dinyanyikan secara <strong>susul-menyusul</strong>. Kelompok satu mulai nyanyi, pas sampai baris tertentu, kelompok dua baru masuk dari awal. Jadi kayak kejar-kejaran melodi. Contohnya lagu "Bapak Yakob" atau "Are You Sleeping". Seru banget buat latihan!</p>
+                        <h3>2. Vokal Grup dan Paduan Suara</h3>
+                        <p>Apa bedanya?</p>
+                        <ul>
+                            <li><strong>Vokal Grup:</strong> Kelompok kecil, biasanya 3-12 orang. Aransemennya lebih bebas dan sering ada improvisasi.</li>
+                            <li><strong>Paduan Suara (Koor):</strong> Kelompok besar, bisa puluhan bahkan ratusan orang. Aransemennya lebih baku dan dipimpin oleh seorang dirigen atau konduktor.</li>
+                        </ul>
+                        <p>Kunci suksesnya adalah latihan pembagian suara (misal soprano, alto, tenor, bass) dan mendengarkan suara teman, biar harmoninya pas!</p>
+                    </article>
+                    <button onclick="showQuiz('seni-musik-11')" class="mt-8 bg-sky-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-sky-600 w-full transition-all transform hover:scale-105">Mulai Kuis Bab 11</button>
+                `,
+                quiz: [
+                    { type: 'mc', question: 'Lagu yang dinyanyikan oleh beberapa kelompok secara susul-menyusul disebut...', options: ['Lagu Akapela', 'Lagu Seriosa', 'Lagu Kanon', 'Lagu Pop'], answer: 'Lagu Kanon', explanation: 'Ciri khas lagu kanon adalah melodi yang sama dinyanyikan bergantian secara bersahut-sahutan atau susul-menyusul.' },
+                    { type: 'mc', question: 'Kelompok bernyanyi dalam jumlah besar yang dipimpin oleh seorang dirigen disebut...', options: ['Vokal Grup', 'Trio', 'Paduan Suara', 'Band'], answer: 'Paduan Suara', explanation: 'Paduan suara atau koor melibatkan banyak penyanyi dengan pembagian suara yang terstruktur dan dipimpin oleh dirigen.' },
+                    { type: 'essay', question: 'Apa beda utama antara vokal grup dan paduan suara?', answer: 'Jumlah anggota dan kebebasan aransemen.', explanation: 'Vokal grup lebih kecil dan aransemennya lebih bebas, sedangkan paduan suara lebih besar dan aransemennya lebih terstruktur.' }
+                ]
+            },
+            'seni-musik-12': {
+                title: 'Bab 12: Memainkan Alat Musik Campuran',
+                category: 'Seni Musik',
+                content: `
+                    <article class="prose lg:prose-xl dark:prose-invert max-w-none">
+                        <h2>Bab 12: Memainkan Alat Musik Campuran</h2>
+                        <h3>Pengantar: Orkestra Mini di Kelas!</h3>
+                        <p>Setelah kenal jenis-jenis alat musik, sekarang saatnya kita gabungkan semuanya! Memainkan alat musik campuran (ansambel campuran) berarti kita menggunakan alat musik ritmis, melodis, dan harmonis secara bersamaan untuk memainkan sebuah lagu.</p>
+                        <h3>Peran Setiap Alat Musik</h3>
+                        <ul>
+                            <li><strong>Alat Musik Ritmis (misal: drum, rebana):</strong> Menjaga tempo dan memberi 'groove' atau hentakan pada lagu. Dia adalah jantungnya musik.</li>
+                            <li><strong>Alat Musik Melodis (misal: rekorder, biola):</strong> Memainkan melodi utama lagu, bagian yang paling mudah diingat dan dinyanyikan.</li>
+                            <li><strong>Alat Musik Harmonis (misal: gitar, piano):</strong> Mengisi kekosongan dengan akor-akor, membuat lagu terdengar penuh dan harmonis. Dia adalah 'lem' yang menyatukan semuanya.</li>
+                        </ul>
+                        <h3>Kunci Sukses Ansambel Campuran</h3>
+                        <p>Kekompakan adalah segalanya! Setiap pemain harus:</p>
+                        <ol>
+                            <li><strong>Paham perannya:</strong> Tahu kapan harus main, kapan harus diam.</li>
+                            <li><strong>Mendengarkan teman:</strong> Main musik bareng itu seperti ngobrol, harus saling mendengarkan biar nyambung.</li>
+                            <li><strong>Mengikuti tempo:</strong> Semua harus main dalam kecepatan yang sama. Biasanya ada satu orang (atau ketukan dari alat ritmis) yang jadi patokan.</li>
+                        </ol>
+                        <p>Dengan menggabungkan berbagai jenis alat musik, kita bisa menciptakan aransemen lagu yang unik dan keren!</p>
+                    </article>
+                    <button onclick="showQuiz('seni-musik-12')" class="mt-8 bg-sky-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-sky-600 w-full transition-all transform hover:scale-105">Mulai Kuis Bab 12</button>
+                `,
+                quiz: [
+                    { type: 'mc', question: 'Penyajian musik yang menggunakan berbagai jenis alat musik berbeda secara bersamaan disebut...', options: ['Ansambel Sejenis', 'Ansambel Campuran', 'Orkestra Simfoni', 'Solo Instrumen'], answer: 'Ansambel Campuran', explanation: 'Ansambel campuran menggabungkan alat musik dari berbagai kelompok (ritmis, melodis, harmonis).' },
+                    { type: 'mc', question: 'Dalam ansambel campuran, alat musik yang bertugas memainkan melodi utama adalah...', options: ['Gendang', 'Gitar', 'Suling', 'Triangle'], answer: 'Suling', explanation: 'Suling, rekorder, atau biola adalah contoh alat musik melodis yang memainkan melodi lagu.' },
+                    { type: 'essay', question: 'Sebutkan 3 kelompok alat musik berdasarkan fungsinya dalam ansambel!', answer: 'Ritmis, Melodis, dan Harmonis.', explanation: 'Tiga fungsi utama alat musik dalam ansambel adalah ritmis (irama), melodis (melodi), dan harmonis (pengiring/akor).' }
+                ]
+            },
+
+            // --- SENI TARI ---
+            'seni-tari-5': {
+                title: 'Bab 5: Ruang, Waktu, dan Tenaga pada Gerak Tari',
+                category: 'Seni Tari',
+                content: `
+                    <article class="prose lg:prose-xl dark:prose-invert max-w-none">
+                        <h2>Bab 5: Ruang, Waktu, dan Tenaga pada Gerak Tari</h2>
+                        <h3>Pengantar: 3 Elemen Ajaib dalam Tarian!</h3>
+                        <p>Setiap gerakan tari pasti punya tiga elemen penting: Ruang, Waktu, dan Tenaga. Ketiganya ini gak bisa dipisahkan dan jadi "bumbu" yang bikin tarian jadi lebih hidup dan bermakna.</p>
+                        <h3>1. Ruang</h3>
+                        <p>Ini adalah area tempat penari bergerak. Ada <strong>ruang pribadi</strong> (jangkauan gerak tanpa pindah tempat) dan <strong>ruang umum</strong> (area panggung untuk berpindah tempat).</p>
+                        <h3>2. Waktu</h3>
+                        <p>Ini soal <strong>tempo</strong> (cepat-lambat) dan <strong>ritme</strong> (panjang-pendek) gerakan. Dengan memainkan tempo, tarian jadi lebih dinamis.</p>
+                        <h3>3. Tenaga</h3>
+                        <p>Ini soal penggunaan energi. Ada <strong>intensitas</strong> (kuat-lemah), <strong>aksen</strong> (gerakan tiba-tiba), dan <strong>kualitas</strong> (misalnya gerakan mengalir atau patah-patah). Mengolah ketiga elemen ini akan menciptakan tarian yang indah dan penuh ekspresi.</p>
+                    </article>
+                    <button onclick="showQuiz('seni-tari-5')" class="mt-8 bg-amber-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-amber-600 w-full transition-all transform hover:scale-105">Mulai Kuis Bab 5</button>
+                `,
+                quiz: [
+                    { type: 'mc', question: 'Elemen dasar tari yang mencakup tempat penari bergerak adalah...', options: ['Waktu', 'Tenaga', 'Ruang', 'Ritme'], answer: 'Ruang', explanation: 'Ruang dalam tari adalah unsur pokok yang menentukan terwujudnya suatu gerak.' },
+                    { type: 'mc', question: 'Cepat atau lambatnya suatu gerakan dalam tari disebut...', options: ['Level', 'Tempo', 'Aksen', 'Dinamika'], answer: 'Tempo', explanation: 'Tempo adalah ukuran kecepatan dalam birama lagu atau gerak tari.' },
+                    { type: 'essay', question: 'Sebutkan 3 elemen dasar dalam gerak tari!', answer: 'Ruang, Waktu, dan Tenaga.', explanation: 'Tiga elemen dasar yang tidak bisa dipisahkan dari gerak tari adalah Ruang, Waktu, dan Tenaga.' }
+                ]
+            },
+            'seni-tari-6': {
+                title: 'Bab 6: Pengolahan Ruang, Waktu, Tenaga sesuai Iringan',
+                category: 'Seni Tari',
+                content: `
+                    <article class="prose lg:prose-xl dark:prose-invert max-w-none">
+                        <h2>Bab 6: Pengolahan Ruang, Waktu, dan Tenaga sesuai Iringan</h2>
+                        <h3>Pengantar: Menari dengan Musik</h3>
+                        <p>Setelah paham soal ruang, waktu, dan tenaga, sekarang kita coba gabungkan dengan iringan musik. Iringan musik ini bisa jadi panduan tempo, ritme, dan juga pemberi suasana (mood) pada tarian.</p>
+                        <h3>Menyesuaikan Gerak dengan Musik</h3>
+                        <ul>
+                            <li><strong>Tempo Cepat:</strong> Jika musiknya cepat dan semangat, gerakannya bisa lebih enerjik, menggunakan tenaga yang kuat, dan ruang yang luas (misalnya dengan lompatan).</li>
+                            <li><strong>Tempo Lambat:</strong> Jika musiknya pelan dan mendayu, gerakannya bisa lebih lembut, mengalir, menggunakan tenaga yang ringan, dan ruang yang lebih sempit atau pribadi.</li>
+                        </ul>
+                        <h3>Kerja Sama dalam Tari Kelompok</h3>
+                        <p>Pada tari tunggal, penari bebas berekspresi. Tapi pada tari berpasangan atau kelompok, pengolahan ruang, waktu, dan tenaga harus dilakukan bersama. Perlu ada kekompakan agar gerakan terlihat harmonis dan tidak bertabrakan. Misalnya, ada penari yang bergerak cepat, ada yang lambat; ada yang di depan, ada yang di belakang. Ini akan menciptakan dinamika yang menarik.</p>
+                    </article>
+                    <button onclick="showQuiz('seni-tari-6')" class="mt-8 bg-amber-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-amber-600 w-full transition-all transform hover:scale-105">Mulai Kuis Bab 6</button>
+                `,
+                quiz: [
+                    { type: 'mc', question: 'Fungsi utama iringan musik dalam tari adalah sebagai...', options: ['Pengisi suara', 'Panduan ritme dan tempo', 'Dekorasi panggung', 'Penambah durasi'], answer: 'Panduan ritme dan tempo', explanation: 'Musik memberikan kerangka waktu (tempo dan ritme) yang menjadi acuan bagi penari untuk melakukan gerakannya.' },
+                    { type: 'mc', question: 'Gerakan melompat tinggi dan berpindah tempat secara luas adalah contoh pengolahan elemen...', options: ['Waktu dan Tenaga', 'Ruang dan Waktu', 'Ruang dan Tenaga', 'Hanya Ruang'], answer: 'Ruang dan Tenaga', explanation: 'Gerakan ini menggunakan ruang umum secara maksimal dan membutuhkan tenaga yang kuat untuk melompat.' },
+                    { type: 'essay', question: 'Mengapa dalam tari kelompok perlu ada kerja sama yang baik?', answer: 'Agar gerakan terlihat kompak dan harmonis.', explanation: 'Kerja sama penting agar semua penari bisa menyatukan gerak, tempo, dan penggunaan ruang sehingga tarian terlihat rapi dan indah.' }
+                ]
+            },
+            'seni-tari-13': {
+                title: 'Bab 13: Level dan Pola Lantai pada Gerak Tari',
+                category: 'Seni Tari',
+                content: `
+                    <article class="prose lg:prose-xl dark:prose-invert max-w-none">
+                        <h2>Bab 13: Level dan Pola Lantai pada Gerak Tari</h2>
+                        <h3>Pengantar: Bikin Tarian Lebih Bervariasi!</h3>
+                        <p>Untuk membuat tarian lebih dinamis dan tidak membosankan, ada dua "rahasia" lagi yang bisa dipakai penari, yaitu Level dan Pola Lantai.</p>
+                        <h3>1. Level Gerak</h3>
+                        <p>Level adalah tinggi rendahnya posisi penari saat melakukan gerakan. Ada tiga level utama:</p>
+                        <ul>
+                            <li><strong>Level Tinggi:</strong> Gerakan melompat, jinjit, atau berdiri dengan tangan ke atas. Memberi kesan ringan dan gembira.</li>
+                            <li><strong>Level Sedang:</strong> Posisi badan berdiri normal, seperti kebanyakan tarian. Ini adalah level yang paling umum.</li>
+                            <li><strong>Level Rendah:</strong> Gerakan duduk, jongkok, atau berguling di lantai. Memberi kesan berat, sedih, atau ketenangan.</li>
+                        </ul>
+                        <p>Dengan mengombinasikan ketiga level ini, tarian akan terlihat lebih hidup!</p>
+                        <h3>2. Pola Lantai</h3>
+                        <p>Pola lantai adalah garis imajiner di lantai yang dilalui oleh penari. Ini adalah "jejak" penari di atas panggung.</p>
+                        <ul>
+                            <li><strong>Garis Lurus:</strong> Bisa lurus ke depan, ke samping, zig-zag, atau diagonal. Memberi kesan kuat, tegas, dan sederhana. Contoh: Tari Saman.</li>
+                            <li><strong>Garis Lengkung:</strong> Bisa membentuk lingkaran, setengah lingkaran, atau angka delapan. Memberi kesan lembut, lemah gemulai, dan luwes. Contoh: Tari Kecak.</li>
+                        </ul>
+                    </article>
+                    <button onclick="showQuiz('seni-tari-13')" class="mt-8 bg-amber-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-amber-600 w-full transition-all transform hover:scale-105">Mulai Kuis Bab 13</button>
+                `,
+                quiz: [
+                    { type: 'mc', question: 'Gerakan penari saat duduk atau berbaring di lantai termasuk dalam level...', options: ['Tinggi', 'Sedang', 'Rendah', 'Transisi'], answer: 'Rendah', explanation: 'Level rendah adalah semua gerakan yang dilakukan dekat dengan lantai, seperti duduk, jongkok, atau berbaring.' },
+                    { type: 'mc', question: 'Tari Saman dari Aceh terkenal menggunakan pola lantai...', options: ['Lingkaran', 'Garis Lengkung', 'Angka Delapan', 'Garis Lurus'], answer: 'Garis Lurus', explanation: 'Penari Saman duduk dalam satu barisan lurus yang rapat, melambangkan kekompakan.' },
+                    { type: 'essay', question: 'Apa fungsi utama dari penggunaan level dalam tarian?', answer: 'Menciptakan dinamika dan membuat tarian lebih menarik.', explanation: 'Permainan level yang variatif membuat tarian tidak monoton dan lebih enak untuk dinikmati.' }
+                ]
+            },
+            'seni-tari-14': {
+                title: 'Bab 14: Menampilkan Level dan Pola Lantai',
+                category: 'Seni Tari',
+                content: `
+                    <article class="prose lg:prose-xl dark:prose-invert max-w-none">
+                        <h2>Bab 14: Menampilkan Level dan Pola Lantai pada Gerak Tari</h2>
+                        <h3>Pengantar: Saatnya Praktik!</h3>
+                        <p>Sekarang kita gabungkan semua yang sudah dipelajari: ruang, waktu, tenaga, level, dan pola lantai. Kita akan coba meragakan gerak tari dengan hitungan dan iringan, serta memperhatikan tata pentas.</p>
+                        <h3>1. Meragakan Gerak dengan Hitungan</h3>
+                        <p>Latihan dengan hitungan (misalnya 1 sampai 8) sangat penting untuk melatih kekompakan dan kesesuaian gerak dengan ritme. Dalam latihan ini, kita bisa merancang kombinasi:</p>
+                        <p>Contoh: 4 hitungan pertama, semua penari di level rendah dengan pola lantai lurus. 4 hitungan berikutnya, setengah penari naik ke level sedang, membentuk pola lantai melengkung. Ini akan menciptakan transisi yang dinamis.</p>
+                        <h3>2. Tata Pentas Sederhana</h3>
+                        <ul>
+                            <li><strong>Pentas:</strong> Tempat pertunjukan. Bisa di panggung gedung (procenium), bisa juga di ruang terbuka (arena) seperti lapangan.</li>
+                            <li><strong>Tata Rias & Busana:</strong> Riasan wajah dan kostum yang dipakai penari. Fungsinya untuk memperkuat karakter tarian. Riasan dan busana untuk tari perang pasti beda dengan tari yang lemah gemulai.</li>
+                        </ul>
+                        <p>Semua elemen ini harus mendukung tema dan suasana tarian yang ingin ditampilkan.</p>
+                    </article>
+                    <button onclick="showQuiz('seni-tari-14')" class="mt-8 bg-amber-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-amber-600 w-full transition-all transform hover:scale-105">Mulai Kuis Bab 14</button>
+                `,
+                quiz: [
+                    { type: 'mc', question: 'Fungsi utama tata rias dan busana dalam pertunjukan tari adalah untuk...', options: ['Membuat penari cantik', 'Memperkuat karakter tari', 'Menambah durasi', 'Membuat panggung ramai'], answer: 'Memperkuat karakter tari', explanation: 'Tata rias dan busana membantu penonton memahami karakter, tema, dan suasana yang dibawakan dalam tarian.' },
+                    { type: 'mc', question: 'Garis-garis imajiner di lantai yang dilalui oleh penari disebut...', options: ['Level', 'Pola Lantai', 'Properti', 'Setting'], answer: 'Pola Lantai', explanation: 'Pola lantai adalah desain lintasan gerak penari di atas panggung.' },
+                    { type: 'essay', question: 'Apa tujuan berlatih tari dengan hitungan?', answer: 'Untuk melatih kekompakan dan kesesuaian gerak dengan ritme.', explanation: 'Hitungan berfungsi sebagai panduan tempo dan ritme yang seragam bagi semua penari, terutama dalam tari kelompok.' }
+                ]
+            },
+
+            // --- SENI TEATER ---
+            'seni-teater-7': {
+                title: 'Bab 7: Meragakan Adegan Fragmen',
+                category: 'Seni Teater',
+                content: `
+                    <article class="prose lg:prose-xl dark:prose-invert max-w-none">
+                        <h2>Bab 7: Meragakan Adegan Fragmen</h2>
+                        <h3>Pengantar: Apa sih Fragmen itu?</h3>
+                        <p>Fragmen itu ibarat "cuplikan" atau "potongan" dari sebuah cerita. Ini adalah pementasan teater singkat, cocok untuk latihan awal.</p>
+                        <h3>Teknik Dasar Akting: Modal Jadi Aktor Keren!</h3>
+                        <p>Akting adalah perwujudan peran. Biar akting kita bagus, ada 3 latihan dasar yang wajib dikuasai:</p>
+                        <ol>
+                            <li><strong>Olah Tubuh:</strong> Tubuh kita adalah "alat" utama. Latihannya meliputi pemanasan, peregangan, dan latihan keseimbangan agar gerak-gerik (gestur) kita ekspresif.</li>
+                            <li><strong>Olah Suara (Vokal):</strong> Suara harus jelas dan berkarakter. Latih <strong>artikulasi</strong> (kejelasan ucapan) dan <strong>intonasi</strong> (tinggi-rendah nada).</li>
+                            <li><strong>Olah Rasa (Sukma):</strong> Ini bagian paling dalam. Latihannya meliputi <strong>konsentrasi</strong> (fokus), <strong>imajinasi</strong> (daya khayal), dan <strong>ingatan emosi</strong> (memanggil kembali perasaan yang pernah dialami).</li>
+                        </ol>
+                        <p>Dengan menguasai ketiganya, akting kita bakal makin meyakinkan!</p>
+                    </article>
+                    <button onclick="showQuiz('seni-teater-7')" class="mt-8 bg-violet-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-violet-600 w-full transition-all transform hover:scale-105">Mulai Kuis Bab 7</button>
+                `,
+                quiz: [
+                    { type: 'mc', question: 'Cuplikan atau petikan sebuah cerita atau lakon yang dipentaskan secara singkat disebut...', options: ['Monolog', 'Drama', 'Fragmen', 'Opera'], answer: 'Fragmen', explanation: 'Fragmen adalah pementasan teater singkat yang menampilkan cuplikan cerita.' },
+                    { type: 'mc', question: 'Latihan memusatkan pikiran pada suatu objek atau tujuan dalam teater disebut latihan...', options: ['Imajinasi', 'Olah Tubuh', 'Konsentrasi', 'Artikulasi'], answer: 'Konsentrasi', explanation: 'Konsentrasi adalah kemampuan fundamental bagi seorang aktor untuk tetap fokus.' },
+                    { type: 'essay', question: 'Sebutkan 3 teknik dasar dalam akting teater!', answer: 'Olah Tubuh, Olah Suara, dan Olah Rasa.', explanation: 'Tiga pilar utama latihan keaktoran adalah Olah Tubuh, Olah Suara, dan Olah Rasa.' }
+                ]
+            },
+            'seni-teater-8': {
+                title: 'Bab 8: Menulis Naskah Fragmen',
+                category: 'Seni Teater',
+                content: `
+                    <article class="prose lg:prose-xl dark:prose-invert max-w-none">
+                        <h2>Bab 8: Menulis Naskah Fragmen</h2>
+                        <h3>Pengantar: Yuk, Jadi Penulis Naskah!</h3>
+                        <p>Naskah adalah cetak biru sebuah pementasan. Di dalamnya ada dialog, karakter, dan alur cerita. Mau coba menulis naskah fragmen sendiri? Ikuti langkah-langkah ini!</p>
+                        <h3>Langkah-langkah Menulis Naskah</h3>
+                        <ol>
+                            <li><strong>Tentukan Tema:</strong> Ide dasar ceritamu. Mau tentang persahabatan, petualangan, atau komedi?</li>
+                            <li><strong>Tentukan Alur Cerita (Plot):</strong> Rangkaian peristiwa dari awal sampai akhir. Harus ada <strong>konflik</strong> (masalah) yang membuat cerita jadi menarik.</li>
+                            <li><strong>Susun Adegan:</strong> Bagi ceritamu ke dalam adegan-adegan. Setiap adegan biasanya terjadi di satu tempat dan waktu.</li>
+                            <li><strong>Buat Dialog:</strong> Tulis percakapan antar tokoh. Dialog harus sesuai dengan karakter dan watak setiap tokoh.</li>
+                        </ol>
+                        <h3>Tokoh dalam Cerita</h3>
+                        <p>Biasanya ada <strong>tokoh protagonis</strong> (tokoh utama/si baik) dan <strong>tokoh antagonis</strong> (lawan dari tokoh utama/si penentang). Konflik antara keduanya inilah yang menggerakkan cerita.</p>
+                    </article>
+                    <button onclick="showQuiz('seni-teater-8')" class="mt-8 bg-violet-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-violet-600 w-full transition-all transform hover:scale-105">Mulai Kuis Bab 8</button>
+                `,
+                quiz: [
+                    { type: 'mc', question: 'Langkah pertama dalam menulis sebuah naskah drama adalah...', options: ['Menulis Dialog', 'Menentukan Alur', 'Menentukan Tema', 'Membuat Adegan'], answer: 'Menentukan Tema', explanation: 'Tema adalah ide pokok yang menjadi dasar pengembangan seluruh cerita.' },
+                    { type: 'mc', question: 'Tokoh yang menjadi penentang tokoh utama dalam sebuah cerita disebut...', options: ['Protagonis', 'Tritagonis', 'Antagonis', 'Figuran'], answer: 'Antagonis', explanation: 'Tokoh antagonis menciptakan konflik bagi tokoh protagonis (tokoh utama).' },
+                    { type: 'essay', question: 'Apa dasar dari sebuah lakon drama?', answer: 'Konflik', explanation: 'Dasar dari sebuah drama adalah konflik atau pertentangan, baik antara tokoh maupun konflik batin dalam diri tokoh.' }
+                ]
+            },
+            'seni-teater-15': {
+                title: 'Bab 15: Merancang Pementasan',
+                category: 'Seni Teater',
+                content: `
+                    <article class="prose lg:prose-xl dark:prose-invert max-w-none">
+                        <h2>Bab 15: Merancang Pementasan</h2>
+                        <h3>Pengantar: Dari Naskah ke Panggung</h3>
+                        <p>Punya naskah dan pemain itu baru setengah jalan. Untuk bisa pentas, kita perlu merancang semuanya dengan matang. Teater itu kerja kolektif, jadi butuh tim yang solid!</p>
+                        <h3>1. Membentuk Panitia</h3>
+                        <p>Biar kerjaan terorganisir, perlu dibentuk panitia. Ada <strong>Pimpinan Produksi</strong> yang mengurus semua hal non-artistik (dana, promosi, tiket) dan <strong>Sutradara/Pimpinan Artistik</strong> yang mengurus semua hal kreatif di panggung (latihan aktor, desain panggung, dll).</p>
+                        <h3>2. Membuat Rancangan Pentas</h3>
+                        <p>Ini adalah tugas tim artistik. Mereka harus merancang:</p>
+                        <ul>
+                            <li><strong>Tata Panggung (Setting):</strong> Latar belakang panggung yang sesuai dengan cerita. Kalau ceritanya di hutan, ya panggungnya harus dibuat seperti hutan.</li>
+                            <li><strong>Properti:</strong> Peralatan yang ada di atas panggung (meja, kursi, pedang, dll).</li>
+                            <li><strong>Tata Lampu:</strong> Untuk menciptakan suasana (siang/malam, sedih/gembira).</li>
+                            <li><strong>Tata Suara & Musik:</strong> Agar dialog terdengar jelas dan ada musik ilustrasi untuk membangun emosi.</li>
+                        </ul>
+                        <h3>3. Melakukan Latihan</h3>
+                        <p>Latihan adalah kunci. Prosesnya dipimpin sutradara, mulai dari membaca naskah (reading), membangun karakter, hingga latihan di atas panggung (blocking) sampai gladi bersih.</p>
+                    </article>
+                    <button onclick="showQuiz('seni-teater-15')" class="mt-8 bg-violet-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-violet-600 w-full transition-all transform hover:scale-105">Mulai Kuis Bab 15</button>
+                `,
+                quiz: [
+                    { type: 'mc', question: 'Orang yang bertanggung jawab penuh atas semua aspek kreatif dan artistik dalam pementasan adalah...', options: ['Produser', 'Manajer Panggung', 'Aktor', 'Sutradara'], answer: 'Sutradara', explanation: 'Sutradara adalah pemimpin artistik yang menafsirkan naskah dan mengarahkan seluruh elemen pementasan.' },
+                    { type: 'mc', question: 'Rancangan latar belakang panggung yang sesuai dengan cerita disebut...', options: ['Properti', 'Tata Panggung (Setting)', 'Tata Rias', 'Tata Busana'], answer: 'Tata Panggung (Setting)', explanation: 'Tata panggung atau setting menciptakan ilusi tempat dan waktu di mana cerita berlangsung.' },
+                    { type: 'essay', question: 'Mengapa teater disebut sebagai seni kolektif?', answer: 'Karena membutuhkan kerja sama banyak orang.', explanation: 'Pementasan teater tidak bisa dilakukan sendirian, melainkan hasil kerja sama tim yang solid, dari aktor, sutradara, hingga tim produksi.' }
+                ]
+            },
+            'seni-teater-16': {
+                title: 'Bab 16: Mementaskan Fragmen',
+                category: 'Seni Teater',
+                content: `
+                    <article class="prose lg:prose-xl dark:prose-invert max-w-none">
+                        <h2>Bab 16: Mementaskan Fragmen</h2>
+                        <h3>Pengantar: Hari-H Pementasan!</h3>
+                        <p>Setelah semua persiapan matang, inilah saatnya menampilkan hasil kerja keras kita! Pementasan adalah puncak dari seluruh proses latihan. Ada beberapa hal teknis terakhir yang sangat penting.</p>
+                        <h3>Unsur Penting Saat Pementasan</h3>
+                        <ul>
+                            <li><strong>Tata Rias:</strong> Mengubah wajah aktor sesuai karakter (misalnya, membuat wajah muda jadi tua, atau membuat luka). Ini disebut rias karakter.</li>
+                            <li><strong>Tata Busana (Kostum):</strong> Pakaian yang dikenakan tokoh. Kostum harus bisa memperkuat karakter. Kostum raja pasti beda dengan pengemis.</li>
+                            <li><strong>Tata Lampu:</strong> Menciptakan atmosfer. Lampu sorot bisa fokus ke satu tokoh, lampu redup bisa menciptakan suasana malam atau misterius.</li>
+                            <li><strong>Tata Suara:</strong> Termasuk musik ilustrasi dan efek suara (suara hujan, pintu, dll). Tujuannya untuk menghidupkan suasana.</li>
+                        </ul>
+                        <h3>Evaluasi Setelah Pentas</h3>
+                        <p>Setelah pementasan selesai, jangan langsung bubar! Lakukan evaluasi. Diskusikan apa saja kelebihan dan kekurangan pementasan kita. Tujuannya adalah untuk belajar dan menjadi lebih baik di pementasan berikutnya. Terima kritik dan masukan dengan lapang dada, karena itu adalah proses belajar yang berharga.</p>
+                    </article>
+                    <button onclick="showQuiz('seni-teater-16')" class="mt-8 bg-violet-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-violet-600 w-full transition-all transform hover:scale-105">Mulai Kuis Bab 16</button>
+                `,
+                quiz: [
+                    { type: 'mc', question: 'Riasan yang bertujuan untuk mengubah wajah aktor sesuai dengan karakter tokoh yang diperankan disebut...', options: ['Rias Cantik', 'Rias Karakter', 'Rias Fantasi', 'Rias Panggung'], answer: 'Rias Karakter', explanation: 'Rias karakter secara spesifik bertujuan membentuk wajah aktor agar sesuai dengan usia, watak, dan kondisi tokoh.' },
+                    { type: 'mc', question: 'Kegiatan yang dilakukan setelah pementasan untuk membahas kelebihan dan kekurangan pertunjukan adalah...', options: ['Gladi Bersih', 'Konferensi Pers', 'Evaluasi', 'Syukuran'], answer: 'Evaluasi', explanation: 'Evaluasi adalah bagian penting dari proses kreatif untuk pembelajaran dan perbaikan di masa mendatang.' },
+                    { type: 'essay', question: 'Sebutkan 2 unsur tata teknik pentas yang penting saat hari pementasan!', answer: 'Tata Rias, Tata Busana, Tata Lampu, atau Tata Suara.', explanation: 'Empat unsur teknis utama yang menjadi penunjang visual dan audio saat pementasan adalah tata rias, busana, lampu, dan suara.' }
+                ]
+            }
+        };
+
+        // === LOGIKA JAVASCRIPT ===
+        document.addEventListener('DOMContentLoaded', () => {
+            const mainContent = document.getElementById('main-content');
+            const desktopNav = document.getElementById('desktop-nav');
+            const mobileNav = document.getElementById('mobile-nav');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const themeToggle = document.getElementById('theme-toggle');
+            const searchInput = document.getElementById('search-input');
+            const searchResults = document.getElementById('search-results');
+            
+            const quizModal = document.getElementById('quiz-modal');
+            const quizModalContent = quizModal.querySelector('.transform');
+            const closeQuizModal = document.getElementById('close-quiz-modal');
+            const submitQuizBtn = document.getElementById('submit-quiz-btn');
+
+            let currentStepIndices = {};
+
+            // Inisialisasi Tema
+            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                document.documentElement.classList.remove('dark');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+
+            // Fungsi ganti tema
+            themeToggle.addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+                if (document.documentElement.classList.contains('dark')) {
+                    localStorage.setItem('theme', 'dark');
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                } else {
+                    localStorage.setItem('theme', 'light');
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                }
+            });
+
+            // Data untuk navigasi
+            const navData = [
+                { id: 'home', title: 'Beranda' },
+                { 
+                    title: 'Seni Rupa',
+                    id: 'seni-rupa',
+                    submenu: [
+                        { id: 'seni-rupa-1', title: 'Bab 1: Menggambar' },
+                        { id: 'seni-rupa-2', title: 'Bab 2: Ragam Hias' },
+                        { id: 'seni-rupa-9', title: 'Bab 9: Ragam Hias Tekstil' },
+                        { id: 'seni-rupa-10', title: 'Bab 10: Ragam Hias Kayu' },
+                    ]
+                },
+                { 
+                    title: 'Seni Musik',
+                    id: 'seni-musik',
+                    submenu: [
+                        { id: 'seni-musik-3', title: 'Bab 3: Bernyanyi Unisono' },
+                        { id: 'seni-musik-4', title: 'Bab 4: Alat Musik Sederhana' },
+                        { id: 'seni-musik-11', title: 'Bab 11: Vokal Grup' },
+                        { id: 'seni-musik-12', title: 'Bab 12: Musik Campuran' },
+                    ]
+                },
+                { 
+                    title: 'Seni Tari',
+                    id: 'seni-tari',
+                    submenu: [
+                        { id: 'seni-tari-5', title: 'Bab 5: Ruang, Waktu, Tenaga' },
+                        { id: 'seni-tari-6', title: 'Bab 6: Pengolahan Gerak' },
+                        { id: 'seni-tari-13', title: 'Bab 13: Level & Pola Lantai' },
+                        { id: 'seni-tari-14', title: 'Bab 14: Menampilkan Tari' },
+                    ]
+                },
+                { 
+                    title: 'Seni Teater',
+                    id: 'seni-teater',
+                    submenu: [
+                        { id: 'seni-teater-7', title: 'Bab 7: Akting Fragmen' },
+                        { id: 'seni-teater-8', title: 'Bab 8: Menulis Naskah' },
+                        { id: 'seni-teater-15', title: 'Bab 15: Merancang Pentas' },
+                        { id: 'seni-teater-16', title: 'Bab 16: Mementaskan Fragmen' },
+                    ]
+                },
+            ];
+            
+            // Fungsi render konten
+            function renderContent(id) {
+                const data = contentData[id] || contentData['home'];
+                const oldContent = mainContent.querySelector('div, article');
+                
+                if(oldContent) {
+                    oldContent.classList.add('opacity-0');
+                }
+
+                setTimeout(() => {
+                    mainContent.innerHTML = data.content;
+                    const newContent = mainContent.querySelector('div, article');
+                    if (newContent) {
+                        newContent.classList.add('opacity-0', 'transition-opacity', 'duration-300');
+                        setTimeout(() => newContent.classList.remove('opacity-0'), 20);
+                    }
+                    mainContent.scrollTop = 0;
+                    
+                    document.querySelectorAll('.nav-link-desktop').forEach(link => {
+                        link.classList.remove('active');
+                        const categoryId = contentData[id]?.category?.toLowerCase().replace(' ', '-') || id;
+                        if (link.dataset.id === categoryId) {
+                            link.classList.add('active');
+                        }
+                    });
+                    
+                    currentStepIndices = {};
+                    const stepContainers = mainContent.querySelectorAll('[id^="interactive-steps-"]');
+                    stepContainers.forEach(container => {
+                        currentStepIndices[container.id] = 0;
+                    });
+
+                    if(['seni-rupa', 'seni-musik', 'seni-tari', 'seni-teater'].includes(id)){
+                        const categoryNavData = navData.find(item => item.id === id);
+                        if(categoryNavData && categoryNavData.submenu) {
+                            let linksHtml = '<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">';
+                            categoryNavData.submenu.forEach(sub => {
+                                linksHtml += `<a href="#" data-id="${sub.id}" class="nav-link text-center bg-gray-100 dark:bg-gray-700 p-4 rounded-lg hover:bg-teal-100 dark:hover:bg-teal-900 transition-colors">${sub.title}</a>`;
+                            });
+                            linksHtml += '</div>';
+                            mainContent.insertAdjacentHTML('beforeend', linksHtml);
+                        }
+                    }
+
+                }, 150);
+            }
+
+            function generateNav() {
+                let desktopHtml = '';
+                let mobileHtml = '';
+                navData.forEach(item => {
+                    if (item.submenu) {
+                        desktopHtml += `
+                            <div class="relative group">
+                                <a href="#" class="nav-link-desktop text-gray-600 dark:text-gray-300 group-hover:text-teal-600 dark:group-hover:text-teal-400 px-3 py-2 rounded-md text-base font-medium" data-id="${item.id}">
+                                    <span>${item.title}</span> <i class="fas fa-chevron-down text-xs ml-1"></i>
+                                </a>
+                                <div class="absolute left-0 mt-3 w-56 rounded-xl shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform-gpu group-hover:translate-y-0 translate-y-2">
+                                    <div class="py-2">
+                                        ${item.submenu.map(sub => `<a href="#" class="nav-link block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-teal-500" data-id="${sub.id}">${sub.title}</a>`).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        mobileHtml += `
+                            <div>
+                                <button class="w-full text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-2 rounded-md text-base font-medium flex justify-between items-center">${item.title} <i class="fas fa-chevron-down transform transition-transform"></i></button>
+                                <div class="pl-4 mt-2 space-y-1 hidden">
+                                    ${item.submenu.map(sub => `<a href="#" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-600 dark:text-gray-400 hover:text-teal-500 dark:hover:text-teal-400" data-id="${sub.id}">${sub.title}</a>`).join('')}
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        desktopHtml += `<a href="#" class="nav-link-desktop text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-400 px-3 py-2 rounded-md text-base font-medium" data-id="${item.id}">${item.title}</a>`;
+                        mobileHtml += `<a href="#" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" data-id="${item.id}">${item.title}</a>`;
+                    }
+                });
+                desktopNav.innerHTML = desktopHtml;
+                mobileNav.innerHTML = mobileHtml;
+            }
+
+            document.body.addEventListener('click', (e) => {
+                let navLink = e.target.closest('.nav-link');
+                if (navLink) {
+                    e.preventDefault();
+                    const id = navLink.dataset.id;
+                    renderContent(id);
+                    mobileMenu.classList.add('hidden');
+                }
+                
+                let mobileAccordionButton = e.target.closest('#mobile-nav button');
+                if (mobileAccordionButton) {
+                     const submenu = mobileAccordionButton.nextElementSibling;
+                     submenu.classList.toggle('hidden');
+                     mobileAccordionButton.querySelector('i').classList.toggle('rotate-180');
+                }
+
+                if (e.target.closest('a[data-id]')) {
+                    e.preventDefault();
+                    renderContent(e.target.closest('a[data-id]').dataset.id);
+                }
+            });
+            mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+            window.showQuiz = (id) => {
+                const data = contentData[id];
+                if (!data || !data.quiz) return;
+                const quizContent = document.getElementById('quiz-content');
+                document.getElementById('quiz-title').textContent = `Kuis: ${data.title}`;
+                let quizHtml = '<div id="quiz-form" class="space-y-6">';
+                data.quiz.forEach((q, index) => {
+                    quizHtml += `<div class="bg-gray-50 dark:bg-gray-700/50 p-5 rounded-xl" id="question-${index}">
+                        <p class="font-semibold mb-3 text-lg">${index + 1}. ${q.question}</p>`;
+                    if (q.type === 'mc') {
+                        quizHtml += '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">';
+                        q.options.forEach(opt => {
+                            quizHtml += `<label class="quiz-option flex items-center bg-white dark:bg-gray-700 p-3 rounded-lg border-2 border-transparent dark:border-gray-600 cursor-pointer"><input type="radio" name="q${index}" value="${opt}" class="hidden"> <span class="flex-1">${opt}</span></label>`;
+                        });
+                        quizHtml += '</div>';
+                    } else if (q.type === 'essay') {
+                        quizHtml += `<div><input type="text" name="q${index}" class="w-full bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-500 rounded-md p-2 focus:ring-2 focus:ring-teal-500" placeholder="Ketik jawaban singkatmu..."></div>`;
+                    }
+                    quizHtml += `<div id="feedback-${index}" class="mt-3 text-sm transition-all duration-300 opacity-0 max-h-0 overflow-hidden"></div>`;
+                    quizHtml += '</div>';
+                });
+                quizHtml += '</div>';
+                quizContent.innerHTML = quizHtml;
+                quizModal.classList.remove('hidden');
+                setTimeout(() => quizModalContent.classList.remove('scale-95', 'opacity-0'), 10);
+                submitQuizBtn.textContent = "Kumpulkan Jawaban";
+                submitQuizBtn.disabled = false;
+                submitQuizBtn.onclick = () => checkAnswers(id);
+
+                quizContent.querySelectorAll('input[type="radio"]').forEach(radio => {
+                    radio.addEventListener('change', (e) => {
+                        const name = e.target.name;
+                        document.querySelectorAll(`input[name="${name}"]`).forEach(r => {
+                            r.parentElement.classList.remove('border-teal-500','bg-teal-50','dark:bg-teal-900/50');
+                        });
+                        e.target.parentElement.classList.add('border-teal-500','bg-teal-50','dark:bg-teal-900/50');
+                    });
+                });
+            };
+
+            function checkAnswers(id) {
+                const quizData = contentData[id].quiz;
+                let score = 0;
+                quizData.forEach((q, index) => {
+                    const questionBlock = document.getElementById(`question-${index}`);
+                    const feedbackEl = document.getElementById(`feedback-${index}`);
+                    const inputs = questionBlock.querySelectorAll(`input[name="q${index}"]`);
+                    
+                    let userAnswer = "";
+                    let selectedLabel = null;
+
+                    if (q.type === 'mc') {
+                        const checkedInput = questionBlock.querySelector(`input[name="q${index}"]:checked`);
+                        if (checkedInput) {
+                            userAnswer = checkedInput.value;
+                            selectedLabel = checkedInput.parentElement;
+                        }
+                    } else {
+                        const essayInput = questionBlock.querySelector(`input[name="q${index}"]`);
+                        userAnswer = essayInput.value.trim();
+                        selectedLabel = essayInput;
+                    }
+
+                    inputs.forEach(input => input.disabled = true);
+                    
+                    let isCorrect = (q.type === 'mc') 
+                        ? userAnswer.toLowerCase() === q.answer.toLowerCase()
+                        : q.answer.toLowerCase().split(' ').every(word => userAnswer.toLowerCase().includes(word));
+                    
+                    feedbackEl.style.maxHeight = feedbackEl.scrollHeight + "px";
+                    feedbackEl.classList.remove('opacity-0', 'max-h-0');
+
+                    if (isCorrect) {
+                        score++;
+                        if(selectedLabel && q.type === 'mc') selectedLabel.classList.add('correct');
+                        feedbackEl.innerHTML = `<div class="p-3 mt-2 rounded-lg bg-teal-50 dark:bg-teal-900/50 text-teal-800 dark:text-teal-200"><p class="font-bold"><i class="fas fa-check-circle mr-2"></i>Benar!</p><p>${q.explanation}</p></div>`;
+                    } else {
+                        if(selectedLabel && q.type === 'mc') selectedLabel.classList.add('incorrect');
+                        // Highlight the correct answer for MCQs
+                        if(q.type === 'mc'){
+                            const correctLabel = Array.from(inputs).find(i => i.value.toLowerCase() === q.answer.toLowerCase()).parentElement;
+                            correctLabel.classList.add('correct');
+                        }
+                        feedbackEl.innerHTML = `<div class="p-3 mt-2 rounded-lg bg-rose-50 dark:bg-rose-900/50 text-rose-800 dark:text-rose-200"><p class="font-bold"><i class="fas fa-times-circle mr-2"></i>Kurang Tepat.</p><p>Jawaban yang benar: <strong>${q.answer}</strong>. ${q.explanation}</p></div>`;
+                    }
+                });
+                
+                let scoreDisplay = document.getElementById('score-display');
+                if (scoreDisplay) scoreDisplay.remove();
+                scoreDisplay = document.createElement('div');
+                scoreDisplay.id = 'score-display';
+                scoreDisplay.innerHTML = `<h4 class="text-2xl font-bold mt-6 text-center">Skor Akhir: ${score} dari ${quizData.length}</h4>`;
+                document.getElementById('quiz-form').insertAdjacentElement('afterend', scoreDisplay);
+                
+                submitQuizBtn.textContent = "Tutup";
+                submitQuizBtn.onclick = () => {
+                    quizModalContent.classList.add('scale-95', 'opacity-0');
+                    setTimeout(() => quizModal.classList.add('hidden'), 300);
+                }
+            }
+            
+            closeQuizModal.addEventListener('click', () => {
+                quizModalContent.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => quizModal.classList.add('hidden'), 300);
+            });
+            
+            window.changeStep = (containerId, direction) => {
+                const container = document.getElementById(containerId);
+                if (!container) return;
+                const steps = container.querySelectorAll('.interactive-step');
+                let currentIndex = currentStepIndices[containerId] || 0;
+                steps[currentIndex].style.display = 'none';
+                currentIndex = (currentIndex + direction + steps.length) % steps.length;
+                steps[currentIndex].style.display = 'block';
+                currentStepIndices[containerId] = currentIndex;
+            };
+
+            searchInput.addEventListener('input', () => {
+                const query = searchInput.value.toLowerCase();
+                if (query.length < 2) {
+                    searchResults.classList.add('hidden');
+                    return;
+                }
+                let resultsHtml = '<div class="py-1">';
+                let count = 0;
+                for (const id in contentData) {
+                    if(id === 'home' || id.split('-').length < 2) continue;
+                    const item = contentData[id];
+                    if (item.title.toLowerCase().includes(query) || item.category.toLowerCase().includes(query)) {
+                        resultsHtml += `<a href="#" class="nav-link block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" data-id="${id}"><span class="font-semibold">${item.category}:</span> ${item.title.split(': ')[1]}</a>`;
+                        count++;
+                    }
+                }
+                resultsHtml += '</div>';
+
+                if (count > 0) {
+                    searchResults.innerHTML = resultsHtml;
+                    searchResults.classList.remove('hidden');
+                } else {
+                    searchResults.innerHTML = `<div class="px-4 py-2 text-sm text-gray-500">Tidak ada hasil.</div>`;
+                    searchResults.classList.remove('hidden');
+                }
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('#search-input') && !e.target.closest('#search-results')) {
+                    searchResults.classList.add('hidden');
+                }
+            });
+            
+            generateNav();
+            renderContent('home');
+        });
+    </script>
+
+</body>
+</html>
